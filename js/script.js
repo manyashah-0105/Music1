@@ -552,6 +552,12 @@ function bindEvents() {
       togglePlay();
     }
   });
+  // Click on mini player opens Now Playing view
+miniPlayer.addEventListener("click", (e) => {
+  // Don't open if user clicked the play/prev/next buttons
+  if (e.target.closest(".mini-btn")) return;
+  setView("nowplaying");
+});
 }
 
 /* ========== START ========== */
