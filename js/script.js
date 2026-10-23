@@ -41,7 +41,36 @@ const DEFAULT_SONGS = [
     album: 'From "Jawan"'
   }
 ];
+async function saveCurrentSongOffline() {
+  if (currentIndex === -1) {
+    alert("No song is currently playing");
+    return;
+  }
 
+  const song = songs[currentIndex];
+
+  try {
+    // Fetch the audio as blob
+    const response = await fetch(song.src);
+    const blob = await response.blob();
+
+    // Store in Cache Storage (works offline)
+    const cache = await caches.open("offline-songs");
+    await cache.put(song.src, new Response(blob));
+
+    // Also keep a record
+    let offlineList = JSON.parse(localStorage.getItem("offlineSongs") || "[]");
+    if (!offlineList.includes(song.id)) {
+      offlineList.push(song.id);
+      localStorage.setItem("offlineSongs", JSON.stringify(offlineList));
+    }
+
+    alert(`"${song.title}" saved for offline listening!`);
+  } catch (err) {
+    console.error(err);
+    alert("Could not save song offline. Try again.");
+  }
+}
 /* ========== STATE ========== */
 let songs = [...DEFAULT_SONGS];
 let liked = JSON.parse(localStorage.getItem("likedSongs") || "[]");
@@ -557,6 +586,14 @@ miniPlayer.addEventListener("click", (e) => {
   // Don't open if user clicked the play/prev/next buttons
   if (e.target.closest(".mini-btn")) return;
   setView("nowplaying");
+});
+// Save for offline
+document.querySelector('.action-btn:nth-child(2)')?.addEventListener("click", saveCurrentSongOffline);
+// Better way (more reliable):
+document.querySelectorAll(".action-btn").forEach(btn => {
+  if (btn.textContent.includes("Save for offline")) {
+    btn.addEventListener("click", saveCurrentSongOffline);
+  }
 });
 }
 
