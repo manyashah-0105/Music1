@@ -1078,155 +1078,106 @@ body.light .mini-art img {
 }
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 900px) {
-  :root {
-    --sidebar-width: 200px;
-  }
-  .search-box {
-    width: 200px;
-  }
-}
-
 @media (max-width: 768px) {
   .app {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
-  /* Sidebar becomes overlay */
   .sidebar {
-    position: fixed;
-    left: -280px;
+    position: fixed !important;
+    left: -280px !important;
     top: 0;
     bottom: 0;
     width: 260px;
+    z-index: 100;
     transition: left 0.3s ease;
-    z-index: 50;
   }
+
   .sidebar.open {
-    left: 0;
+    left: 0 !important;
   }
 
-  .mini-player {
-    grid-column: 1;
+  .main {
+    width: 100% !important;
   }
 
-  .content {
-    padding: 16px 14px 30px;
-  }
-
-  .view-header h1 {
-    font-size: 24px;
-  }
-
-  /* Song row - reduce columns so nothing goes out */
-  .song-row {
-    grid-template-columns: 28px 40px 1fr auto;
-    gap: 10px;
-    padding: 10px 8px;
-  }
-
-  .song-category {
-    display: none;               /* hide category on small screens */
-  }
-
-  .song-actions {
-    opacity: 1;                  /* always show buttons */
-  }
-
-  /* Action buttons stay in one line */
-  .actions {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .action-btn {
-    padding: 7px 12px;
-    font-size: 12px;
-  }
-
-  /* Top bar */
   .topbar {
-    padding: 0 12px;
-    gap: 8px;
+    padding: 0 12px !important;
+    height: 56px;
   }
 
   .search-box {
-    width: auto;
+    width: auto !important;
     flex: 1;
     max-width: none;
-    padding: 7px 12px;
+    padding: 6px 12px;
   }
 
   .top-btn {
-    padding: 6px 10px;
+    padding: 6px 8px !important;
     font-size: 12px;
   }
 
-  .top-btn span {
-    display: none;               /* hide text, keep icon only */
+  .content {
+    padding: 16px 12px 90px !important;
   }
 
-  /* Now Playing */
+  .view-header h1 {
+    font-size: 22px !important;
+  }
+
+  .song-row {
+    grid-template-columns: 26px 38px 1fr auto !important;
+    gap: 8px !important;
+    padding: 10px 6px !important;
+  }
+
+  .song-category {
+    display: none !important;
+  }
+
+  .song-actions {
+    opacity: 1 !important;
+  }
+
+  .actions {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .action-btn {
+    padding: 7px 12px !important;
+    font-size: 12px !important;
+  }
+
   .vinyl {
-    width: 200px;
-    height: 200px;
+    width: 180px !important;
+    height: 180px !important;
   }
 
   .vinyl-inner {
-    width: 80px;
-    height: 80px;
+    width: 75px !important;
+    height: 75px !important;
   }
 
-  .nowplaying-info h1 {
-    font-size: 22px;
-  }
-
-  .np-controls {
-    gap: 12px;
-  }
-
-  .ctrl-btn.play-btn {
-    width: 52px;
-    height: 52px;
-  }
-
-  /* Mini player */
   .mini-player {
-    padding: 0 12px;
-    gap: 10px;
-  }
-
-  .mini-title {
-    font-size: 13px;
+    grid-column: 1 !important;
+    padding: 0 10px !important;
   }
 }
 
 @media (max-width: 480px) {
-  .filters {
-    gap: 6px;
-  }
-
-  .filter-pill {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
-
-  .actions {
-    gap: 6px;
-  }
-
-  .action-btn {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-
   .song-row {
-    grid-template-columns: 24px 36px 1fr auto;
-    gap: 8px;
+    grid-template-columns: 22px 34px 1fr auto !important;
   }
 
   .vinyl {
-    width: 170px;
-    height: 170px;
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .filter-pill {
+    padding: 4px 10px !important;
+    font-size: 11px !important;
   }
 }
