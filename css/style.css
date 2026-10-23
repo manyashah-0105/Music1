@@ -424,9 +424,9 @@ body.light .filter-pill.active {
 .actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .action-btn {
@@ -441,6 +441,7 @@ body.light .filter-pill.active {
   background: var(--bg-tertiary);
   border: 1px solid var(--border);
   transition: all var(--transition);
+  white-space: nowrap;        /* Prevent text wrapping */
 }
 
 .action-btn:hover {
