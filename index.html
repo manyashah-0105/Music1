@@ -362,5 +362,29 @@
   <audio id="audio" preload="metadata"></audio>
 
   <script src="js/script.js"></script>
+  <!-- EQ MODAL -->
+<div class="modal-overlay hidden" id="eq-modal">
+  <div class="modal" style="max-width: 340px;">
+    <div class="modal-header">
+      <h3>Equalizer</h3>
+      <button class="modal-close" id="eq-close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="eq-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <button class="timer-opt eq-preset active" data-eq="flat">Flat</button>
+      <button class="timer-opt eq-preset" data-eq="bass">Bass Boost</button>
+      <button class="timer-opt eq-preset" data-eq="treble">Treble Boost</button>
+      <button class="timer-opt eq-preset" data-eq="vocal">Vocal</button>
+      <button class="timer-opt eq-preset" data-eq="electronic">Electronic</button>
+      <button class="timer-opt eq-preset" data-eq="rock">Rock</button>
+    </div>
+
+    <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-top:16px;" id="eq-current">Current: Flat</p>
+  </div>
+</div>
 </body>
 </html>
