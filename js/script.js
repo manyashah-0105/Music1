@@ -84,6 +84,83 @@ let currentView = "all";
 let sleepTimerId = null;
 let sleepEndTime = null;
 let userAddedSongs = []; // blob URLs from file picker
+let audioContext = null;
+let eqFilters = [];
+let currentEQ = "flat";
+function initEQ() {
+  if (audioContext) return;
+
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioContext.createMediaElementSource(audio);
+
+  // Create 3-band EQ
+  const low = audioContext.createBiquadFilter();
+  low.type = "lowshelf";
+  low.frequency.value = 200;
+
+  const mid = audioContext.createBiquadFilter();
+  mid.type = "peaking";
+  mid.frequency.value = 1000;
+  mid.Q.value = 1;
+
+  const high = audioContext.createBiquadFilter();
+  high.type = "highshelf";
+  high.frequency.value = 3000;
+
+  source.connect(low);
+  low.connect(mid);
+  mid.connect(high);
+  high.connect(audioContext.destination);
+
+  eqFilters = [low, mid, high];
+}
+
+function applyEQ(preset) {
+  initEQ();
+
+  // Reset first
+  eqFilters[0].gain.value = 0;
+  eqFilters[1].gain.value = 0;
+  eqFilters[2].gain.value = 0;
+
+  const presets = {
+    flat:       [0, 0, 0],
+    bass:       [8, 0, -2],
+    treble:     [-2, 0, 7],
+    vocal:      [-3, 5, 2],
+    electronic: [4, -2, 5],
+    rock:       [5, 2, 4]
+  };
+
+  const gains = presets[preset] || [0, 0, 0];
+  eqFilters[0].gain.value = gains[0];
+  eqFilters[1].gain.value = gains[1];
+  eqFilters[2].gain.value = gains[2];
+
+  currentEQ = preset;
+
+  // Update button text
+  const eqBtn = document.getElementById("eq-btn");
+  if (eqBtn) {
+    eqBtn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+        <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+        <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/>
+        <line x1="17" y1="16" x2="23" y2="16"/>
+      </svg>
+      EQ ${preset.charAt(0).toUpperCase() + preset.slice(1)}
+    `;
+  }
+
+  document.getElementById("eq-current").textContent = `Current: ${preset.charAt(0).toUpperCase() + preset.slice(1)}`;
+
+  // Highlight active preset
+  document.querySelectorAll(".eq-preset").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.eq === preset);
+  });
+}
 
 /* ========== DOM ========== */
 const audio = document.getElementById("audio");
